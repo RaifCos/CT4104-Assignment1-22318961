@@ -1,0 +1,47 @@
+import pandas as pd
+
+def main():
+    waiting = True
+    while waiting:
+        model = input("Which model would you like to use, SVM or GNB? > ").lower()
+        if model == "svm":
+            callSVM()
+            waiting = False
+            break
+        if model == "gnb":
+            callGNB()
+            waiting = False
+            break
+        else:
+            print("Not a valid model!")
+
+def defineHyperparameter(name, min, max):
+    waiting = True
+    while waiting:
+        try:
+            value = float(input(f"What value should the Hyperparameter {name} be? (between {min} and {max}) > "))
+            if min <= value <= max:
+                waiting = False
+                return value
+            else:
+                print(f"Value must be between {min} and {max}.")
+        except ValueError:
+            print("Invalid input. Please enter a numeric value.")
+
+def callSVM():
+    gamma = defineHyperparameter("gamma", 0, 1)
+    C = defineHyperparameter("C", 0, 10)
+    print(f"Running Support Vector Machine Classification Model...")
+    import svm
+    svm.main(trainingSet, testingSet, gamma, C)
+
+def callGNB():
+    var_smoothing = defineHyperparameter("var_smoothing", 1e-10, 1e-5)
+    print(f"Running Gaussian Naïve Bayes Classification Model...")
+    import gnb
+    gnb.main(trainingSet, testingSet, var_smoothing)
+
+# Read data from CSV before starting main loop.
+trainingSet = pd.read_csv('data/wildfires_training.csv')
+testingSet = pd.read_csv('data/wildfires_test.csv')
+main()
