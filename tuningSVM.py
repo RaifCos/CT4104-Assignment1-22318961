@@ -1,3 +1,7 @@
+# Python Script to tune Hyperparameters for the SVM Classification Model for the Wildfire Dataset.
+# Name: Raif Costello
+# Student ID: 22318961
+
 import svm
 import pandas as pd
 import numpy as np
