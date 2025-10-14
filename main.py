@@ -2,6 +2,8 @@
 # Name: Raif Costello
 # Student ID: 22318961
 
+# TODO: Add Hyperparameter definition for priors in GNB.
+
 import pandas as pd
 
 def main():
@@ -51,7 +53,7 @@ def callGNB():
     
     print(f"Running Gaussian Naïve Bayes Classification Model...")
     import gnb
-    gnb.main(trainingSet, testingSet, var_smoothing, priors)
+    gnb.main(trainingSet, testingSet, var_smoothing, None)
 
 # Read data from CSV before starting main loop.
 trainingSet = pd.read_csv('data/wildfires_training.csv')
