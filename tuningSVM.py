@@ -25,42 +25,44 @@ gamma = 0
 while gamma < 10:
     c = 0.1
     while c < 1:
-        # Eliminate Rounding Errors
-        gammaRounded = round(gamma, 2)
-        cRounded = round(c, 2)
+        # Round to avoid floating point errors.
+        roundedGamma = round(gamma, 1)
+        roundedC = round(c, 2)
         
-        acc = svm.main(trainingSet, testingSet, gammaRounded, cRounded)
-        print(f"Gamma: {gammaRounded}, C: {cRounded}, Accuracy: {acc:.4f}")
+        # Run SVM model with current Hyperparameters and retieve accuracy.
+        acc = svm.main(trainingSet, testingSet, roundedGamma, roundedC)
+        print(f"Gamma: {roundedGamma:.1f}, C: {roundedC:.2f}, Accuracy: {acc:.2f}")
         
         # Store results
-        valuesGamma.append(gammaRounded)
-        valuesC.append(cRounded)
+        valuesGamma.append(roundedGamma)
+        valuesC.append(roundedC)
         valuesAccuracy.append(acc)
         
         c += stepC
-    gamma+= stepGamma
+    gamma += stepGamma
 
-# Create a Pivot Table to Graph results.
-countC = len(set(valuesGamma))
-countGamma = len(set(valuesC))
+# Create a Pivot Table to create Heatmap.
+countGamma = len(set(valuesGamma))
+countC = len(set(valuesC))
 pivotTable = np.array(valuesAccuracy).reshape(countGamma, countC)
 
-# Create a heatmap to represent results.
+# Create a Heatmap to display results.
 plt.figure(figsize=(12, 8))
 sns.heatmap(pivotTable, annot=False, cmap='viridis', cbar_kws={'label': 'Accuracy'})
 plt.title('SVM Hyperparameter Tuning Results', fontsize=16, pad=20)
-plt.xlabel('C', fontsize=12)
-plt.ylabel('Gamma', fontsize=12)
+plt.xlabel('C Parameter', fontsize=12)
+plt.ylabel('Gamma Parameter', fontsize=12)
 plt.tight_layout()
 plt.show()
 
-# Find and print best parameters.
-bestResult = results_df['accuracy'].idxmax()
-bestGamma = results_df.loc[bestResult, 'gamma']
-bestC = results_df.loc[bestResult, 'C']
-bestAccuracy = results_df.loc[bestResult, 'accuracy']
+# Find best Hyperparameters.
+bestResult = valuesAccuracy.index(max(valuesAccuracy))
+bestGamma = valuesGamma[bestResult]
+bestC = valuesC[bestResult]
+bestAccuracy = valuesAccuracy[bestResult]
 
-print(f"\nBest Parameters:")
-print(f"Gamma: {bestGamma}")
-print(f"C: {bestC}")
-print(f"Accuracy: {bestAccuracy}%")
+# Print Results.
+print(f"Best Parameters:")
+print(f"Gamma: {bestGamma:.1f}")
+print(f"C: {bestC:.2f}")
+print(f"Accuracy: {bestAccuracy:.2f}")
