@@ -2,8 +2,6 @@
 # Name: Raif Costello
 # Student ID: 22318961
 
-# TODO: Hyperparameter processing for priors.
-
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
 
@@ -34,6 +32,4 @@ def main(train, test, var_smoothing, priors):
     testAccuracy = model.score(testFeaturesScaled, testFire)
 
     # Print and return results.
-    print(f"Training Accuracy: {trainAccuracy:.2f}")
-    print(f"Testing Accuracy: {testAccuracy:.2f}")
     return testAccuracy

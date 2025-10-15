@@ -2,8 +2,6 @@
 # Name: Raif Costello
 # Student ID: 22318961
 
-# TODO: Add Hyperparameter definition for priors in GNB.
-
 import pandas as pd
 
 def main():
@@ -49,11 +47,11 @@ def callSVM():
 def callGNB():
     # Hyperparemeters
     var_smoothing = defineHyperparameter("var_smoothing", 1e-10, 1e-5)
-    # TODO: Add method to define priors
-    
+    fireProb = defineHyperparameter("Priors (\"fire\" - yes)", 0, 1)
+    priors = [fireProb, 1 - fireProb]
     print(f"Running Gaussian Naïve Bayes Classification Model...")
     import gnb
-    gnb.main(trainingSet, testingSet, var_smoothing, None)
+    gnb.main(trainingSet, testingSet, var_smoothing, priors)
 
 # Read data from CSV before starting main loop.
 trainingSet = pd.read_csv('data/wildfires_training.csv')
