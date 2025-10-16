@@ -14,7 +14,7 @@ def main(train, test, var_smoothing, priors):
     trainFire = (train['fire'] == 'yes').astype(int).values
     trainFeatures = train[features].values
     
-    # Preprocessing with Scaler.
+    # Preprocessing and fitting data with Scaler.
     scaler = StandardScaler()
     trainFeaturesScaled = scaler.fit_transform(trainFeatures)
 
@@ -24,7 +24,7 @@ def main(train, test, var_smoothing, priors):
     # Prepare Testing Set like Training Set.
     testFire = (test['fire'] == 'yes').astype(int).values
     testFeatures = test[features].values
-    # Preprocessing without Scaler.
+    # Preprocessing again, now without fitting.
     testFeaturesScaled = scaler.transform(testFeatures)
 
     # Calculate accuracy of training and testing sets.
