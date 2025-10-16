@@ -4,6 +4,7 @@
 
 from sklearn import svm
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report
 
 def main(train, test, gamma, C):
     # Define Features and Model.
@@ -27,9 +28,14 @@ def main(train, test, gamma, C):
     # Preprocessing again, now without fitting.
     testFeaturesScaled = scaler.transform(testFeatures)
 
+    # Make test Predcition for classification report.
+    testPrediction = model.predict(testFeaturesScaled)
+
     # Calculate accuracy of training and testing sets.
     trainAccuracy = model.score(trainFeaturesScaled, trainFire)
     testAccuracy = model.score(testFeaturesScaled, testFire)
+    
+    print(classification_report(testFire, testPrediction, target_names=['No Fire', 'Fire']))
 
     # Print and return results.
     return testAccuracy
